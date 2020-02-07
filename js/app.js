@@ -6,7 +6,7 @@ const app = {
   todos: [],
   remaining: 0,
   init: () => {
-    app.nextID = app.length + 1;
+    app.nextID = app.todos.length + 1;
     app.createInput();
     app.createTitle();
     app.todosContainer = document.createElement('div');
@@ -36,8 +36,8 @@ const app = {
 
   renderTodos: () => {
     app.clearTodos();
-    app.updateTitle();
     app.showTodos();
+    app.updateTitle();
 
   },
 
@@ -69,6 +69,7 @@ const app = {
       todoInput.className = 'todo';
       todoInput.id = `todo-${todo.id}`;
       todoInput.type = 'checkbox';
+      todoInput.checked = todo.completed;
       const todoLabel = document.createElement('label');
       todoLabel.htmlFor = todoInput.id;
       todoLabel.textContent = todo.label;
@@ -76,8 +77,32 @@ const app = {
       todoContainer.className = "todo-container"
       todoContainer.appendChild(todoInput);
       todoContainer.appendChild(todoLabel);
+      todoInput.addEventListener('change', ({ target: { checked } }) => app.toggleTodo(checked, todo.id));
+      
+      if(todo.completed) {
+        todoContainer.classList.add('is-completed')
+      } else {
+        todoContainer.classList.contains('is-completed') && todoContainer.classList.remove('is-completed')
+      }
+
       app.todosContainer.appendChild(todoContainer);
     });
+  },
+
+  toggleTodo: (checked, id) => {
+    app.todos = app.todos.map(t => {
+      if(t.id === id) {
+        return {
+          id: t.id,
+          label: t.label,
+          completed: checked
+        }
+      }
+      return t
+    })
+
+    app.renderTodos()
+
   }
 };
 
