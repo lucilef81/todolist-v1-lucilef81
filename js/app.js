@@ -1,6 +1,7 @@
 /**
  * Todolist
  */
+
 const app = {
   todos: [],
   remaining: 0,
@@ -16,11 +17,12 @@ const app = {
 
     app.input.addEventListener('keyup', e => {
       if (e.keyCode === 13 || e.keyCode === 10) {
-        app.todos.push({
+        const newTodo = {
           id: app.nextID,
           label: e.target.value,
           completed: false,
-        });
+        }
+        app.todos.push(newTodo);
         app.nextID++;
         e.target.value = '';
         app.renderTodos();
@@ -41,7 +43,7 @@ const app = {
 
   createInput: () => {
     app.input = document.createElement('input');
-    app.input.className = 'addTask';
+    app.input.className = 'add-input';
     app.input.placeholder = 'Ajouter une tâche';
     app.input.name = 'todo-label';
     document.body.appendChild(app.input);
@@ -49,7 +51,7 @@ const app = {
 
   createTitle: () => {
     app.title = document.createElement('h2');
-    app.title.className = 'tasksTitle';
+    app.title.className = 'tasks-title';
     app.updateTitle();
     document.body.appendChild(app.title);
   },
@@ -76,7 +78,7 @@ const app = {
       todoContainer.appendChild(todoLabel);
       app.todosContainer.appendChild(todoContainer);
     });
-  },
+  }
 };
 
 // Chargement du DOM
